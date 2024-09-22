@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Girasol</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(
+          to bottom,
+          #87ceeb 0%,
+          #87ceeb 60%,
+          #228b22 60%,
+          #228b22 100%
+        );
+        overflow: hidden;
+        cursor: none;
+      }
+
+      .sunflower {
+        position: relative;
+        width: 300px;
+        height: 300px;
+      }
+
+      .center {
+        width: 60px;
+        height: 60px;
+        background: radial-gradient(circle, #8b4513 60%, #654321 100%);
+        border-radius: 50%;
+        position: absolute;
+        top: 75%;
+        left: 56%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .petal {
+        width: 40px;
+        height: 100px;
+        background: linear-gradient(to bottom, #ffd700, #ffa500);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-origin: center 75px; /* Ajustado para que gire desde el centro del girasol */
+        border-radius: 50% 50% 0 0;
+        z-index: 1;
+      }
+
+      /* Ajustamos la rotación y traslación de cada pétalo */
+      .petal:nth-child(1) {
+        transform: rotate(0deg) translateY(-75px);
+      }
+      .petal:nth-child(2) {
+        transform: rotate(30deg) translateY(-75px);
+      }
+      .petal:nth-child(3) {
+        transform: rotate(60deg) translateY(-75px);
+      }
+      .petal:nth-child(4) {
+        transform: rotate(90deg) translateY(-75px);
+      }
+      .petal:nth-child(5) {
+        transform: rotate(120deg) translateY(-75px);
+      }
+      .petal:nth-child(6) {
+        transform: rotate(150deg) translateY(-75px);
+      }
+      .petal:nth-child(7) {
+        transform: rotate(180deg) translateY(-75px);
+      }
+      .petal:nth-child(8) {
+        transform: rotate(210deg) translateY(-75px);
+      }
+      .petal:nth-child(9) {
+        transform: rotate(240deg) translateY(-75px);
+      }
+      .petal:nth-child(10) {
+        transform: rotate(270deg) translateY(-75px);
+      }
+      .petal:nth-child(11) {
+        transform: rotate(300deg) translateY(-75px);
+      }
+      .petal:nth-child(12) {
+        transform: rotate(330deg) translateY(-75px);
+      }
+
+      /* Ajuste el transform de cada pétalo para que se distribuyan alrededor del centro */
+
+      .stem {
+        width: 10px;
+        height: 150px;
+        background: linear-gradient(to right, #228b22, #32cd32, #228b22);
+        position: absolute;
+        bottom: -150px;
+        left: 56%;
+        transform: translateX(-50%);
+        z-index: 0;
+      }
+
+      .cloud {
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        opacity: 0.8;
+        transition: transform 20s linear;
+      }
+
+      .cloud-1 {
+        width: 100px;
+        height: 40px;
+        top: 20%;
+        left: -100px;
+      }
+
+      .cloud-2 {
+        width: 80px;
+        height: 30px;
+        top: 10%;
+        right: -80px;
+      }
+
+      .sun {
+        width: 60px;
+        height: 60px;
+        background: #ffd700;
+        border-radius: 50%;
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        box-shadow: 0 0 20px #ffd700;
+      }
+
+      #cursor {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        position: fixed;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sunflower">
+      <div class="stem"></div>
+      <div
+        class="petal"
+        style="transform: rotate(0deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(30deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(60deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(90deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(120deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(150deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(180deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(210deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(240deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(270deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(300deg) translateY(-50px)"
+      ></div>
+      <div
+        class="petal"
+        style="transform: rotate(330deg) translateY(-50px)"
+      ></div>
+      <div class="center"></div>
+    </div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="sun"></div>
+    <div id="cursor"></div>
+
+    <script>
+      const sunflower = document.querySelector(".sunflower");
+      const petals = document.querySelectorAll(".petal");
+      const clouds = document.querySelectorAll(".cloud");
+      const cursor = document.getElementById("cursor");
+
+      // Girasol siguiendo al cursor
+      document.addEventListener("mousemove", (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const angle = Math.atan2(y - centerY, x - centerX);
+        sunflower.style.transform = `rotate(${angle}rad)`;
+
+        // Mover el cursor personalizado
+        cursor.style.left = `${x}px`;
+        cursor.style.top = `${y}px`;
+      });
+
+      // Animación de los pétalos
+      setInterval(() => {
+        petals.forEach((petal) => {
+          const currentRotation = parseFloat(
+            petal.style.transform.match(/rotate(.*?)deg/)[1]
+          );
+          const newRotation = currentRotation + (Math.random() * 2 - 1);
+          petal.style.transform = `rotate(${newRotation}deg) translateY(-50px)`;
+        });
+      }, 100);
+
+      // Animación de las nubes
+      function moveCloud(cloud, direction) {
+        const startPosition =
+          direction === "right" ? -cloud.offsetWidth : window.innerWidth;
+        const endPosition =
+          direction === "right" ? window.innerWidth : -cloud.offsetWidth;
+
+        cloud.style.transform = `translateX(${startPosition}px)`;
+
+        setTimeout(() => {
+          cloud.style.transform = `translateX(${endPosition}px)`;
+        }, 100);
+      }
+
+      moveCloud(clouds[0], "right");
+      moveCloud(clouds[1], "left");
+
+      setInterval(() => {
+        moveCloud(clouds[0], "right");
+        moveCloud(clouds[1], "left");
+      }, 20000);
+    </script>
+  </body>
+</html>
